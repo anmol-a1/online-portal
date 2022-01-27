@@ -14,7 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
+from django.views.generic import TemplateView
 
 
 from rest_framework.schemas import get_schema_view
@@ -29,5 +30,6 @@ urlpatterns = [
     path('auth/', include('users.urls'),name='users'),
     # Blog_API Application
     path('teacher/', include('teacher.urls'),name='teachers')
-]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
